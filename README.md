@@ -1,6 +1,24 @@
-# 🚀 base bot Deployment Guide
+# 🚀 INCONNU BOY — Deployment Guide
 
 > Open Source WhatsApp Bot — Deploy in minutes on Render, Railway or Heroku
+
+<div align="center">
+
+[![WhatsApp Channel](https://img.shields.io/badge/WhatsApp%20Channel-Follow%20for%20Updates-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029VbC6It7K0IBkQwaKYd2J)
+[![GitHub](https://img.shields.io/badge/GitHub-INCONNU--BOY-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/INCONNU-BOY)
+
+</div>
+
+---
+
+## 📣 Support & Updates
+
+| Platform | Link |
+|---|---|
+| 📺 **WhatsApp Channel** (tutorials, updates, news) | [Follow here](https://whatsapp.com/channel/0029VbC6It7K0IBkQwaKYd2J) |
+| 💻 **GitHub** (source code, issues, PRs) | [github.com/INCONNU-BOY](https://github.com/INCONNU-BOY) |
+
+> 💡 Join the WhatsApp channel to get notified when new features, bug fixes or tutorials are posted.
 
 ---
 
@@ -261,4 +279,21 @@ It will **automatically appear in `.menu`** — no extra configuration needed.
 
 ---
 
-*© Powered by INCONNU BOY 🔥*
+---
+
+## 👤 Credits & Author
+
+| | |
+|---|---|
+| 👨‍💻 **Developer** | [INCONNU BOY](https://github.com/INCONNU-BOY) |
+| 💻 **GitHub** | [github.com/INCONNU-BOY](https://github.com/INCONNU-BOY) |
+| 📺 **WhatsApp Channel** | [Follow for updates & tutorials](https://whatsapp.com/channel/0029VbC6It7K0IBkQwaKYd2J) |
+| 📦 **Library** | [@whiskeysockets/baileys](https://github.com/WhiskeySockets/Baileys) |
+| 🗄️ **Database** | [MongoDB Atlas](https://www.mongodb.com/atlas) |
+
+> ⭐ If you use this project, please **star the repo** on GitHub and **follow the WhatsApp channel** for tutorials and updates — it helps a lot!
+
+---
+
+*© 2025 INCONNU BOY — Open Source WhatsApp Bot 🔥*  
+*[github.com/INCONNU-BOY](https://github.com/INCONNU-BOY) • [WhatsApp Channel](https://whatsapp.com/channel/0029VbC6It7K0IBkQwaKYd2J)*
