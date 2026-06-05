@@ -1,4 +1,4 @@
-const { cmd } = require('../command');
+const { cmd } = require('../inconnuboy');
 const axios = require('axios');
 const config = require('../config');
 
