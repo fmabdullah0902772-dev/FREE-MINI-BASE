@@ -40,7 +40,7 @@ cmd({
         const seconds = Math.floor(uptime % 60);
 
         let menuText = `╭──────────────────────◇\n`;
-        menuText += `│  *🤖 INCONNU BOY — MENU*\n`;
+        menuText += `│  *🤖 𝙵𝙼 𝙰𝙱𝙳𝚄𝙻𝙻𝙰𝙷-𝙼𝙴𝙽𝚄*\n`;
         menuText += `│──────────────────────\n`;
         menuText += `│ 👤 User: ${m.pushName || 'User'}\n`;
         menuText += `│ ⚡ Prefix: [ ${config.PREFIX} ]\n`;
@@ -69,7 +69,7 @@ cmd({
             menuText += `╰────────────────────◇\n\n`;
         }
 
-        menuText += `> *© Powered by INCONNU BOY*`;
+        menuText += `> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ꜰᴍ ᴀʙᴅᴜʟʟᴀʜ ᴍᴅ*`;
 
         await conn.sendMessage(from, {
             image: { url: config.IMAGE_PATH },
