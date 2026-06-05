@@ -6,7 +6,7 @@ cmd({
     pattern: "play2",
     alias: ["song", "audio"],
     desc: "YouTube Audio Player (Elite Engine)",
-    category: "download",
+    category: "general",
     filename: __filename
 }, async (conn, m, mek, { from, q, reply, sender, body }) => {
     try {
