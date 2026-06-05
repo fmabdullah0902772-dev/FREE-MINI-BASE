@@ -18,9 +18,9 @@ module.exports = {
     // 2. INFORMATIONS DU BOT
     // ===========================================================
     PREFIX: process.env.PREFIX || '.',
-    OWNER_NUMBER: process.env.OWNER_NUMBER || 'your number', // Mettez votre numéro ici
-    BOT_NAME: "YOUR BOT NAME",
-    BOT_FOOTER: '© ᴘᴏᴡᴇʀᴇᴅ ʙʏ inconnu boy',
+    OWNER_NUMBER: process.env.OWNER_NUMBER || '923124001592', // Mettez votre numéro ici
+    BOT_NAME: "『 𝐅𝐌 𝐀𝐁𝐃𝐔𝐋𝐋𝐀𝐇 𝐌𝐃 』",
+    BOT_FOOTER: '© ⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ꜰᴍ ᴀʙᴅᴜʟʟᴀʜ ⚡',
     
     // Mode de travail : public, private, group, inbox
     WORK_TYPE: process.env.WORK_TYPE || "public", 
@@ -52,7 +52,7 @@ module.exports = {
     WELCOME_IMAGE: process.env.WELCOME_IMAGE || null, 
     GOODBYE_IMAGE: process.env.GOODBYE_IMAGE || null,
     
-    GROUP_INVITE_LINK: process.env.GROUP_INVITE_LINK || 'your group url ',
+    GROUP_INVITE_LINK: process.env.GROUP_INVITE_LINK || 'https://chat.whatsapp.com/I9OyqMrhecsLOHxkhbook6',
     
     // ===========================================================
     // 6. SÉCURITÉ & ANTI-CALL
@@ -63,8 +63,8 @@ module.exports = {
     // ===========================================================
     // 7. IMAGES & LIENS
     // ===========================================================
-    IMAGE_PATH: 'your image url',
-    CHANNEL_LINK: 'your WhatsApp channel link',
+    IMAGE_PATH: 'https://i.ibb.co/KpCh9RLV/1e1d89f614e2.png',
+    CHANNEL_LINK: 'https://whatsapp.com/channel/0029VbBwUOZ6BIEaxmYl3m1Z',
     
     // ===========================================================
     // 8. EXTERNAL API (Optionnel)
