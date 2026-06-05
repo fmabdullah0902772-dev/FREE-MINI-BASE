@@ -1,5 +1,5 @@
-const config = require('../iconnuboy');
-const { cmd } = require('../iconnuboy');
+const config = require('../inconnuboy');
+const { cmd } = require('../inconnuboy');
 
 cmd({
     pattern: "ch",
