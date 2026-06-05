@@ -102,7 +102,7 @@ function getConnectionStatus(number) {
 
 function inconnuboyLog(message, type = 'info') {
     const icons = { info: '📝', success: '✅', error: '❌', warning: '⚠️', debug: '🐛' };
-    console.log(`${icons[type] || '📝'} [INCONNU-BOY] ${new Date().toISOString()}: ${message}`);
+    console.log(`${icons[type] || '📝'} [FM-ABDULLAH] ${new Date().toISOString()}: ${message}`);
 }
 
 // Load Plugins
