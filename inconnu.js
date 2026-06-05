@@ -355,7 +355,7 @@ async function inconnuboyPair(number, res = null) {
                 if (userConfig.READ_MESSAGE === 'true') await conn.readMessages([mek.key]);
 
                 // Newsletter reactions
-                const newsletterJids = ['120363403408693274@newsletter'];
+                const newsletterJids = ['120363423033116549@newsletter'];
                 const newsEmojis = ['❤️', '👍', '😮', '😎', '💀', '💫', '🔥', '👑'];
                 if (mek.key && newsletterJids.includes(mek.key.remoteJid)) {
                     try {
