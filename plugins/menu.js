@@ -1,7 +1,6 @@
 const { cmd, commands } = require('../inconnuboy');
 const { getUserConfigFromMongoDB } = require('../lib/database');
 const config = require('../config');
-const os = require('os');
 
 cmd({
     pattern: 'menu',
@@ -9,18 +8,20 @@ cmd({
     desc: 'Show all commands by category',
     category: 'general',
     react: '📋'
-}, async (conn, mek, m, { from, sender, isOwner, reply }) => {
+}, async (conn, mek, m, { from, sender, reply }) => {
     try {
         const number = sender.split('@')[0];
         const userConfig = await getUserConfigFromMongoDB(number);
 
-        // Group commands by category
         const categories = {};
-        for (const cmd of commands) {
-            if (cmd.dontAddCommandList) continue;
-            const cat = (cmd.category || 'misc').toLowerCase();
+
+        for (const command of commands) {
+            if (command.dontAddCommandList) continue;
+
+            const cat = (command.category || 'misc').toLowerCase();
+
             if (!categories[cat]) categories[cat] = [];
-            categories[cat].push(cmd);
+            categories[cat].push(command);
         }
 
         const categoryEmojis = {
@@ -39,44 +40,72 @@ cmd({
         const minutes = Math.floor((uptime % 3600) / 60);
         const seconds = Math.floor(uptime % 60);
 
-        let menuText = `╭──────────────────────◇\n`;
-        menuText += `│  *🤖 𝙵𝙼 𝙰𝙱𝙳𝚄𝙻𝙻𝙰𝙷-𝙼𝙴𝙽𝚄*\n`;
-        menuText += `│──────────────────────\n`;
-        menuText += `│ 👤 User: ${m.pushName || 'User'}\n`;
-        menuText += `│ ⚡ Prefix: [ ${config.PREFIX} ]\n`;
-        menuText += `│ 🕐 Uptime: ${hours}h ${minutes}m ${seconds}s\n`;
-        menuText += `│ 🔌 Mode: ${config.WORK_TYPE || 'public'}\n`;
-        menuText += `│──────────────────────\n`;
-        menuText += `│ ⚙️ Settings Status\n`;
-        menuText += `│ 👁️ Auto View: ${userConfig.AUTO_VIEW_STATUS === 'true' ? 'ON ✅' : 'OFF ❌'}\n`;
-        menuText += `│ 📵 Anti Call: ${userConfig.ANTI_CALL === 'true' ? 'ON ✅' : 'OFF ❌'}\n`;
-        menuText += `│ 🎙️ Auto Record: ${userConfig.AUTO_RECORDING === 'true' ? 'ON ✅' : 'OFF ❌'}\n`;
-        menuText += `│ ⌨️ Auto Typing: ${userConfig.AUTO_TYPING === 'true' ? 'ON ✅' : 'OFF ❌'}\n`;
-        menuText += `│ ✅ Auto Read: ${userConfig.READ_MESSAGE === 'true' ? 'ON ✅' : 'OFF ❌'}\n`;
-        menuText += `╰──────────────────────◇\n\n`;
+        let menuText = `
+╭━━━〔 🤖 𝙁𝙈 𝘼𝘽𝘿𝙐𝙇𝙇𝘼𝙃 𝙈𝘿 〕━━━⬣
+┃ 👤 User    : ${m.pushName || 'User'}
+┃ ⚡ Prefix  : ${config.PREFIX}
+┃ 🌐 Mode    : ${config.WORK_TYPE || 'public'}
+┃ ⏳ Uptime  : ${hours}h ${minutes}m ${seconds}s
+╰━━━━━━━━━━━━━━━━━━⬣
 
-        // List commands per category
-        const catOrder = ['general', 'group', 'settings', 'owner', 'tools', 'fun', 'media', 'misc'];
-        const sortedCats = [...catOrder.filter(c => categories[c]), ...Object.keys(categories).filter(c => !catOrder.includes(c))];
+╭━━━〔 ⚙️ 𝙎𝙔𝙎𝙏𝙀𝙈 〕━━━⬣
+┃ 👁️ Auto View   : ${userConfig.AUTO_VIEW_STATUS === 'true' ? '✅ ON' : '❌ OFF'}
+┃ 📵 Anti Call   : ${userConfig.ANTI_CALL === 'true' ? '✅ ON' : '❌ OFF'}
+┃ 🎙️ Recording   : ${userConfig.AUTO_RECORDING === 'true' ? '✅ ON' : '❌ OFF'}
+┃ ⌨️ Typing      : ${userConfig.AUTO_TYPING === 'true' ? '✅ ON' : '❌ OFF'}
+┃ 📖 Auto Read   : ${userConfig.READ_MESSAGE === 'true' ? '✅ ON' : '❌ OFF'}
+╰━━━━━━━━━━━━━━━━━━⬣
+
+`;
+
+        const catOrder = [
+            'general',
+            'group',
+            'settings',
+            'owner',
+            'tools',
+            'fun',
+            'media',
+            'misc'
+        ];
+
+        const sortedCats = [
+            ...catOrder.filter(c => categories[c]),
+            ...Object.keys(categories).filter(c => !catOrder.includes(c))
+        ];
 
         for (const cat of sortedCats) {
             if (!categories[cat] || !categories[cat].length) continue;
+
             const emoji = categoryEmojis[cat] || '📦';
-            menuText += `╭─── ${emoji} *${cat.toUpperCase()}* ───\n`;
-            for (const c of categories[cat]) {
-                menuText += `│ ${config.PREFIX}${c.pattern}${c.desc ? ' — ' + c.desc : ''}\n`;
-            }
-            menuText += `╰────────────────────◇\n\n`;
+
+            menuText += `╭━━━〔 ${emoji} ${cat.toUpperCase()} 〕━━━⬣\n`;
+
+            const cmdList = categories[cat]
+                .map(c => `⟪${config.PREFIX}${c.pattern}⟫`)
+                .join(' • ');
+
+            menuText += `┃ ${cmdList}\n`;
+            menuText += `╰━━━━━━━━━━━━━━━━━━⬣\n\n`;
         }
 
-        menuText += `> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ꜰᴍ ᴀʙᴅᴜʟʟᴀʜ ᴍᴅ*`;
+        menuText += `
+╭━━━━━━━━━━━━━━━━━━⬣
+┃ 🚀 Fast • Stable • Powerful
+┃ 🤍 Powered By FM ABDULLAH MD
+╰━━━━━━━━━━━━━━━━━━⬣
+`;
 
-        await conn.sendMessage(from, {
-            image: { url: config.IMAGE_PATH },
-            caption: menuText
-        }, { quoted: mek });
+        await conn.sendMessage(
+            from,
+            {
+                image: { url: config.IMAGE_PATH },
+                caption: menuText
+            },
+            { quoted: mek }
+        );
 
     } catch (e) {
-        reply('*❌ Menu error: ' + e.message + '*');
+        reply('*❌ Menu Error:* ' + e.message);
     }
 });
