@@ -1,4 +1,4 @@
-const { cmd } = require('../inconnuboyp');
+const { cmd } = require('../inconnuboy');
 const axios = require('axios');
 const { sendButtons } = require('gifted-btns');
 
