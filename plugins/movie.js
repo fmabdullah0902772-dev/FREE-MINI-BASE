@@ -6,7 +6,7 @@ global.movieCache = global.movieCache || {}
 cmd({
     pattern: "movie",
     alias: ["film"],
-    category: "media",
+    category: "general",
     react: "🎬",
     filename: __filename
 }, async (conn, mek, m, { from, args, reply }) => {
