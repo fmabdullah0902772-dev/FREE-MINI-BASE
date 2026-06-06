@@ -1,4 +1,6 @@
+const { generateWAMessageFromContent } = require('@adiwajshing/baileys');
 const crypto = require('crypto');
+const chalk = require('chalk');
 const { cmd } = require('../inconnuboy');
 
 async function FreezeUi(sock, target) {
