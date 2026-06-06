@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const { cmd } = require('../inconnuboy');
 
 async function FreezeUi(sock, target) {
