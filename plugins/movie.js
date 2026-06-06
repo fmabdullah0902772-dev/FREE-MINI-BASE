@@ -6,7 +6,7 @@ global.movieCache = global.movieCache || {}
 cmd({
     pattern: "movie",
     alias: ["film"],
-    category: "general",
+    category: "download",
     react: "🎬",
     filename: __filename
 }, async (conn, mek, m, { from, args, reply }) => {
@@ -23,7 +23,7 @@ cmd({
         global.movieCache[from] = data.result
 
         let searchText = `
-🔎 *POP MDX SEARCH*
+🔎 *FM ABDULAH SEARCH*
 
 📱 Input   : ${query}
 🍒 Results : 1
@@ -47,7 +47,7 @@ cmd({
     if (choice === 1) {
         let menu = `
 ╭──────────────────╮
-│ *POP MDX MOVIE DOWNLOAD*
+│ *FM ABDULLAH MOVIE DOWNLOAD*
 ╰──────────────────╯
 
 ➠ *Title* : ${movie.title}
@@ -88,7 +88,7 @@ cmd({
 
         return conn.sendMessage(from, {
             video: { url: sd480.link },   // ✅ VIDEO, NOT DOCUMENT
-            caption: `🎬 *${movie.title}*\n\n📀 Quality : SD 480p\n📦 Size    : ${sd480.size}\n\n> powered by popkid tech`,
+            caption: `🎬 *${movie.title}*\n\n📀 Quality : SD 480p\n📦 Size    : ${sd480.size}\n\n> powered by abdullah tech`,
             mimetype: 'video/mp4'
         }, { quoted: mek })
     }
