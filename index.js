@@ -8,7 +8,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const pairRouter = require('./inconnu');
+const pairRouter = require('./command');
 app.use('/', pairRouter);
 
 app.listen(port, () => {
