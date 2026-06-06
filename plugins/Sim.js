@@ -3,7 +3,7 @@
  * Fetches Pakistani SIM owner details from public database.
  * Includes retry logic and multiple user-agents for reliability.
  */
-
+const { cmd } = require('../inconnuboy');
 const axios = require('axios');
 
 // List of user-agents to rotate
