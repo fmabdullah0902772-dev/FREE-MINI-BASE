@@ -6,7 +6,7 @@
 
 const axios = require("axios");
 const yts = require("yt-search");
-const { cmd } = require("../command");
+const { cmd } = require("../inconnuboy");
 const config = require("../config");
 
 // Exact Newsletter and Bot Info for Popkid-MD
