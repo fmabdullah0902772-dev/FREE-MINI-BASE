@@ -29,7 +29,7 @@ const {
     incrementStats,
     getStatsForNumber
 } = require('./lib/database');
-const { handleAntidelete } = require('./lib/antidelete');
+const { AntideleteHandler } = require('./lib/antidelete');
 
 const express = require('express');
 const fs = require('fs-extra');
