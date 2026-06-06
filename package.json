@@ -8,7 +8,6 @@
   },
   "dependencies": {
    "@whiskeysockets/baileys": "^v7.0.0-rc.9",
-      "@adiwajshing/baileys": "^4.4.0",
     "crypto": "^1.0.1",
     "chalk": "^4.1.2",
     "axios": "^1.6.0",
