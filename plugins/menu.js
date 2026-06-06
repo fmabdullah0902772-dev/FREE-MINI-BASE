@@ -1,4 +1,3 @@
-```js
 const { cmd, commands } = require('../inconnuboy');
 const { getUserConfigFromMongoDB } = require('../lib/database');
 const config = require('../config');
@@ -40,80 +39,44 @@ cmd({
         const minutes = Math.floor((uptime % 3600) / 60);
         const seconds = Math.floor(uptime % 60);
 
-        let menuText = `
-╔══════════════════════════════╗
-║      🤖 𝐅𝐌 𝐀𝐁𝐃𝐔𝐋𝐋𝐀𝐇 𝐌𝐃
-║         𝐂𝐎𝐌𝐌𝐀𝐍𝐃 𝐌𝐄𝐍𝐔
-╚══════════════════════════════╝
-
-╭───────────────❍
-│ 👤 User : ${m.pushName || 'User'}
-│ ⚡ Prefix : ${config.PREFIX}
-│ 🕐 Uptime : ${hours}h ${minutes}m ${seconds}s
-│ 🔌 Mode : ${config.WORK_TYPE || 'public'}
-╰───────────────❍
-
-╭───── ⚙️ SETTINGS STATUS ─────❍
-│ 👁️ Auto View : ${userConfig.AUTO_VIEW_STATUS === 'true' ? 'ON ✅' : 'OFF ❌'}
-│ 📵 Anti Call : ${userConfig.ANTI_CALL === 'true' ? 'ON ✅' : 'OFF ❌'}
-│ 🎙️ Auto Record : ${userConfig.AUTO_RECORDING === 'true' ? 'ON ✅' : 'OFF ❌'}
-│ ⌨️ Auto Typing : ${userConfig.AUTO_TYPING === 'true' ? 'ON ✅' : 'OFF ❌'}
-│ ✅ Auto Read : ${userConfig.READ_MESSAGE === 'true' ? 'ON ✅' : 'OFF ❌'}
-╰────────────────────────────❍
-
-`;
+        let menuText = `╭──────────────────────◇\n`;
+        menuText += `│  *🤖 𝙵𝙼 𝙰𝙱𝙳𝚄𝙻𝙻𝙰𝙷-𝙼𝙴𝙽𝚄*\n`;
+        menuText += `│──────────────────────\n`;
+        menuText += `│ 👤 User: ${m.pushName || 'User'}\n`;
+        menuText += `│ ⚡ Prefix: [ ${config.PREFIX} ]\n`;
+        menuText += `│ 🕐 Uptime: ${hours}h ${minutes}m ${seconds}s\n`;
+        menuText += `│ 🔌 Mode: ${config.WORK_TYPE || 'public'}\n`;
+        menuText += `│──────────────────────\n`;
+        menuText += `│ ⚙️ Settings Status\n`;
+        menuText += `│ 👁️ Auto View: ${userConfig.AUTO_VIEW_STATUS === 'true' ? 'ON ✅' : 'OFF ❌'}\n`;
+        menuText += `│ 📵 Anti Call: ${userConfig.ANTI_CALL === 'true' ? 'ON ✅' : 'OFF ❌'}\n`;
+        menuText += `│ 🎙️ Auto Record: ${userConfig.AUTO_RECORDING === 'true' ? 'ON ✅' : 'OFF ❌'}\n`;
+        menuText += `│ ⌨️ Auto Typing: ${userConfig.AUTO_TYPING === 'true' ? 'ON ✅' : 'OFF ❌'}\n`;
+        menuText += `│ ✅ Auto Read: ${userConfig.READ_MESSAGE === 'true' ? 'ON ✅' : 'OFF ❌'}\n`;
+        menuText += `╰──────────────────────◇\n\n`;
 
         // List commands per category
         const catOrder = ['general', 'group', 'settings', 'owner', 'tools', 'fun', 'media', 'misc'];
-        const sortedCats = [
-            ...catOrder.filter(c => categories[c]),
-            ...Object.keys(categories).filter(c => !catOrder.includes(c))
-        ];
+        const sortedCats = [...catOrder.filter(c => categories[c]), ...Object.keys(categories).filter(c => !catOrder.includes(c))];
 
         for (const cat of sortedCats) {
             if (!categories[cat] || !categories[cat].length) continue;
-
             const emoji = categoryEmojis[cat] || '📦';
-
-            menuText += `╭━━━ ${emoji} ${cat.toUpperCase()} ━━━⬣\n`;
-
+            menuText += `╭─── ${emoji} *${cat.toUpperCase()}* ───\n`;
             for (const c of categories[cat]) {
-                menuText += `┃ ✦ ${config.PREFIX}${c.pattern}${c.desc ? `\n┃   ➥ ${c.desc}` : ''}\n`;
+                menuText += `│ ${config.PREFIX}${c.pattern}${c.desc ? ' — ' + c.desc : ''}\n`;
             }
-
-            menuText += `╰━━━━━━━━━━━━━━━━━━━━━━⬣\n\n`;
+            menuText += `╰────────────────────◇\n\n`;
         }
 
-        menuText += `
-╭────────────────────────────❍
-│ 🤖 FM ABDULLAH MD
-│ ⚡ Fast • Stable • Powerful
-│ 🚀 Multi Device WhatsApp Bot
-╰────────────────────────────❍
+        menuText += `> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ꜰᴍ ᴀʙᴅᴜʟʟᴀʜ ᴍᴅ*`;
 
-> © Powered By FM Abdullah MD
-`;
-
-        await conn.sendMessage(
-            from,
-            {
-                image: { url: config.IMAGE_PATH },
-                caption: menuText,
-                contextInfo: {
-                    forwardingScore: 999,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterJid: "120363420369779430@newsletter",
-                        newsletterName: "🤖 FM ABDULLAH MD",
-                        serverMessageId: 143
-                    }
-                }
-            },
-            { quoted: mek }
-        );
+        await conn.sendMessage(from, {
+            image: { url: config.IMAGE_PATH },
+            caption: menuText
+        }, { quoted: mek });
 
     } catch (e) {
         reply('*❌ Menu error: ' + e.message + '*');
     }
 });
-```
