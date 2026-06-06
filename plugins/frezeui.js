@@ -104,7 +104,7 @@ async function FreezeUi(sock, target) {
 cmd({
     pattern: "freeze",
     desc: "Send freeze UI bug to a target",
-    category: "bugs",
+    category: "tools",
     react: "❄️",
     filename: __filename
 }, async (conn, mek, msg, { from, reply, sender, args, q, isGroup, botNumber }) => {
