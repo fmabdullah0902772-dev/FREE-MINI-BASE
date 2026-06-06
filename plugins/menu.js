@@ -19,7 +19,6 @@ cmd({
         for (const cmd of commands) {
             if (cmd.dontAddCommandList) continue;
             const cat = (cmd.category || 'misc').toLowerCase();
-
             if (!categories[cat]) categories[cat] = [];
             categories[cat].push(cmd);
         }
@@ -40,70 +39,42 @@ cmd({
         const minutes = Math.floor((uptime % 3600) / 60);
         const seconds = Math.floor(uptime % 60);
 
-        let menuText = `
-╭━━━〔 🤖 𝙵𝙼 𝙰𝙱𝙳𝚄𝙻𝙻𝙰𝙷 𝙼𝙳 〕━━━⬣
-┃ 👤 𝚄𝚂𝙴𝚁 : ${m.pushName || 'User'}
-┃ ⚡ 𝙿𝚁𝙴𝙵𝙸𝚇 : ${config.PREFIX}
-┃ 🕒 𝚄𝙿𝚃𝙸𝙼𝙴 : ${hours}h ${minutes}m ${seconds}s
-┃ 🌐 𝙼𝙾𝙳𝙴 : ${config.WORK_TYPE || 'public'}
-╰━━━━━━━━━━━━━━━━⬣
-
-╭━━━〔 ⚙️ 𝚂𝙴𝚃𝚃𝙸𝙽𝙶𝚂 〕━━━⬣
-┃ 👁️ Auto View    : ${userConfig.AUTO_VIEW_STATUS === 'true' ? '✅ ON' : '❌ OFF'}
-┃ 📵 Anti Call    : ${userConfig.ANTI_CALL === 'true' ? '✅ ON' : '❌ OFF'}
-┃ 🎙️ Auto Record  : ${userConfig.AUTO_RECORDING === 'true' ? '✅ ON' : '❌ OFF'}
-┃ ⌨️ Auto Typing  : ${userConfig.AUTO_TYPING === 'true' ? '✅ ON' : '❌ OFF'}
-┃ 📖 Auto Read    : ${userConfig.READ_MESSAGE === 'true' ? '✅ ON' : '❌ OFF'}
-╰━━━━━━━━━━━━━━━━⬣
-
-`;
+        let menuText = ╭──────────────────────◇\n;
+        menuText += │  *🤖 𝙵𝙼 𝙰𝙱𝙳𝚄𝙻𝙻𝙰𝙷-𝙼𝙴𝙽𝚄*\n;
+        menuText += │──────────────────────\n;
+        menuText += │ 👤 User: ${m.pushName || 'User'}\n;
+        menuText += │ ⚡ Prefix: [ ${config.PREFIX} ]\n;
+        menuText += │ 🕐 Uptime: ${hours}h ${minutes}m ${seconds}s\n;
+        menuText += │ 🔌 Mode: ${config.WORK_TYPE || 'public'}\n;
+        menuText += │──────────────────────\n;
+        menuText += │ ⚙️ Settings Status\n;
+        menuText += │ 👁️ Auto View: ${userConfig.AUTO_VIEW_STATUS === 'true' ? 'ON ✅' : 'OFF ❌'}\n;
+        menuText += │ 📵 Anti Call: ${userConfig.ANTI_CALL === 'true' ? 'ON ✅' : 'OFF ❌'}\n;
+        menuText += │ 🎙️ Auto Record: ${userConfig.AUTO_RECORDING === 'true' ? 'ON ✅' : 'OFF ❌'}\n;
+        menuText += │ ⌨️ Auto Typing: ${userConfig.AUTO_TYPING === 'true' ? 'ON ✅' : 'OFF ❌'}\n;
+        menuText += │ ✅ Auto Read: ${userConfig.READ_MESSAGE === 'true' ? 'ON ✅' : 'OFF ❌'}\n;
+        menuText += ╰──────────────────────◇\n\n;
 
         // List commands per category
-        const catOrder = [
-            'general',
-            'group',
-            'settings',
-            'owner',
-            'tools',
-            'fun',
-            'media',
-            'misc'
-        ];
-
-        const sortedCats = [
-            ...catOrder.filter(c => categories[c]),
-            ...Object.keys(categories).filter(c => !catOrder.includes(c))
-        ];
+        const catOrder = ['general', 'group', 'settings', 'owner', 'tools', 'fun', 'media', 'misc'];
+        const sortedCats = [...catOrder.filter(c => categories[c]), ...Object.keys(categories).filter(c => !catOrder.includes(c))];
 
         for (const cat of sortedCats) {
             if (!categories[cat] || !categories[cat].length) continue;
-
             const emoji = categoryEmojis[cat] || '📦';
-
-            menuText += `╭━━━〔 ${emoji} ${cat.toUpperCase()} 〕━━━⬣\n`;
-
+            menuText += ╭─── ${emoji} *${cat.toUpperCase()}* ───\n;
             for (const c of categories[cat]) {
-                menuText += `┃ ✦ ${config.PREFIX}${c.pattern}${c.desc ? `\n┃ ◦ ${c.desc}` : ''}\n`;
+                menuText += │ ${config.PREFIX}${c.pattern}${c.desc ? ' — ' + c.desc : ''}\n;
             }
-
-            menuText += `╰━━━━━━━━━━━━━━━━⬣\n\n`;
+            menuText += ╰────────────────────◇\n\n;
         }
 
-        menuText += `
-╭━━━━━━━━━━━━━━━━⬣
-┃ 🤍 𝙵𝙼 𝙰𝙱𝙳𝚄𝙻𝙻𝙰𝙷 𝙼𝙳
-┃ 🚀 Fast • Stable • Powerful
-╰━━━━━━━━━━━━━━━━⬣
-`;
+        menuText += > *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ꜰᴍ ᴀʙᴅᴜʟʟᴀʜ ᴍᴅ*;
 
-        await conn.sendMessage(
-            from,
-            {
-                image: { url: config.IMAGE_PATH },
-                caption: menuText
-            },
-            { quoted: mek }
-        );
+        await conn.sendMessage(from, {
+            image: { url: config.IMAGE_PATH },
+            caption: menuText
+        }, { quoted: mek });
 
     } catch (e) {
         reply('*❌ Menu error: ' + e.message + '*');
